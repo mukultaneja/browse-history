@@ -66,7 +66,10 @@ def get_connection(browser_name, db='History'):
         browser.
     '''
     if browser_name == 'chrome':
-        DIR_PATH = 'C:\Users\User\AppData\Local\Google\Chrome\User Data\Default'
+        PAR_DIR = os.getenv('APPDATA')
+        G_PATH = 'Local\Google\Chrome\User Data\Default'
+        DIR_PATH = os.path.join(os.path.dirname(PAR_DIR), G_PATH)
+        print DIR_PATH
 
     try:
         logging.info('Establishing connection with the database')
@@ -76,8 +79,7 @@ def get_connection(browser_name, db='History'):
         conn.text_factory = str
         return conn
     except sql.OperationalError as e:
-        print 'hello world'
-        print dir(e)
+        print e.message
 
 
 def get_tables(conn):
